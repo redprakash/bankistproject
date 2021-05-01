@@ -7,6 +7,8 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
 
 const openModal = function () {
   modal.classList.remove('hidden');
@@ -33,10 +35,7 @@ document.addEventListener('keydown', function (e) {
 });
 
 //smooth scrolling
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
-
-btnScrollTo.addEventListener('click', function () {
+btnScrollTo.addEventListener('click', function (e) {
   const s1coords = section1.getBoundingClientRect();
 
   //Old browsers way
@@ -52,3 +51,38 @@ btnScrollTo.addEventListener('click', function () {
 
   section1.scrollIntoView({ behavior: 'smooth' });
 });
+
+///////////////////////////
+//page navigation with scrolling for only few pages
+
+// document.querySelectorAll('.nav__link').forEach(function(el){
+//   el.addEventListener('click',function(e){
+//     e.preventDefault();//preventing default scrolling with anchor # tag
+//     const id = this.getAttribute('href');
+//     document.querySelector(id).scrollIntoView({behavior:'smooth'});
+//   });
+// });
+
+//1.Add event listener to common parent element
+//2. Determine what element originated the event
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  //Matching Strategy
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({
+      behavior: 'smooth',
+    });
+  }
+});
+
+/* JavaScript Events 
+const h1 = document.querySelector('h1');
+const alerth1 = function(e){
+  alert('checking add event listener on mouseenter');
+
+  h1.removeEventListener('mouseenter',alerth1)
+}
+h1.addEventListener('mouseenter', alerth1 );
+*/
